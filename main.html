@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elon MD - AI WhatsApp Bot</title>
+    <title>Elon MD - WhatsApp Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -878,20 +878,26 @@
             <div class="step fade-in">
                 <div class="step-number">2</div>
                 <div>
-                    <h3>Choose Platform</h3>
-                    <p>Deploy on your favorite hosting service:</p>
-                    <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
-                        <a href="https://heroku.com/deploy?template=https://github.com/elondrex/Elon-MD" 
-                           class="btn btn-secondary" 
-                           style="padding: 0.75rem 1.5rem; text-decoration: none;" 
-                           target="_blank">
-                            <i class="fab fa-heroku"></i> Heroku
-                        </a>
-                        <a href="https://replit.com/github/elondrex/Elon-MD" 
-                           class="btn btn-secondary" 
-                           style="padding: 0.75rem 1.5rem; text-decoration: none;" 
-                           target="_blank">
-                            <i class="fas fa-code"></i> Replit
+                    <h3>Choose Hosting Platform</h3>
+<p>Deploy on any of these platforms:</p>
+<div class="social-links" style="margin-top: 1rem; justify-content: flex-start;">
+  <a href="https://heroku.com/deploy?template=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fab fa-heroku"></i> Heroku
+  </a>
+  <a href="https://replit.com/github/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-code"></i> Replit
+  </a>
+  <a href="https://render.com/deploy?repo=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-server"></i> Render
+  </a>
+  <a href="https://panel.axarnet.cloud/deploy?type=git&repository=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-th"></i> Panel
+  </a>
+  <a href="https://app.koyeb.com/deploy?type=git&repository=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-cloud"></i> Koyeb
+  </a>
+  <a href="https://railway.app/new?template=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-train"></i> Railway
                         </a>
                     </div>
                 </div>
@@ -903,10 +909,13 @@
                     <h3>Configure & Run</h3>
                     <p>Set up environment variables and start your bot:</p>
                     <div style="background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px; margin-top: 1rem; font-family: monospace; font-size: 0.9rem; border: 1px solid var(--glass-border);">
-                        PORT=3000<br>
-                        SESSION_ID=elon-md-session<br>
-                        PREFIX=.<br>
-                        OWNER_NUMBER=2347018486818
+                       PORT=3000
+                       SESSION_ID=your_session_id
+                       PREFIX=!
+                       MODS=2347018486818
+                       MONGODB_URI=your_mongodb_uri
+                       CRON=0 */2 * * *
+                       WELCOME=true 
                     </div>
                 </div>
             </div>
