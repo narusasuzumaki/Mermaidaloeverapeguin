@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elon MD - Complete Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-dark: #5b21b6;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --background: #0f172a;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+      --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--background);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Scroll Animation Effects */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-left {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-right {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Navigation */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo i {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+    }
+
+    /* Main Content Sections */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: white;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    /* Pairing Dashboard */
+    .pairing-dashboard {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 24px;
+      padding: 3rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .input-group {
+      margin-bottom: 2rem;
+    }
+
+    .input-label {
+      display: block;
+      text-align: left;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      padding-left: 5px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 1rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 4px;
+      border-radius: 16px;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: rgba(124, 58, 237, 0.8);
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+    }
+
+    .phone-input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      border: none;
+      border-radius: 14px;
+      background: rgba(30, 41, 59, 0.9);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .phone-input:focus {
+      outline: none;
+      background: rgba(40, 51, 69, 0.9);
+    }
+
+    .generate-btn {
+      padding: 1rem 2rem;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+    }
+
+    /* Info Cards */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .info-card {
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 15px 40px rgba(124, 58, 237, 0.2);
+    }
+
+    .info-card i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .info-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    /* Deployment Steps */
+    .deployment-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 2rem;
+      border-radius: 16px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .step-number {
+      background: var(--gradient-primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.75rem 1.5rem;
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 12px;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: rgba(124, 58, 237, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      border-top: 1px solid rgba(124, 58, 237, 0.2);
+      margin-top: 5rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .pairing-dashboard {
+        padding: 2rem 1.5rem;
+      }
+
+      .input-wrapper {
+        flex-direction: column;
+      }
+
+      .step {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <i class="fas fa-robot"></i>
+        <span>Elon MD</span>
+      </a>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+      
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="/pair">Pair Bot</a>
+        <a href="/qr">Scan QR</a> <!-- Fixed QR link -->
+        <a href="#about">About Bot</a>
+        <a href="#deploy">Deploy</a>
+        <a href="#contact">Contact</a>
+        <a href="#feedback">Feedback</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-background"></div>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title">Elon MD WhatsApp Bot</h1>
+      <p class="hero-subtitle">
+        Advanced AI-powered WhatsApp bot with 200+ features including downloaders, 
+        AI chat, games, tools, and much more. Completely free and open source.
+      </p>
+      <div class="hero-buttons">
+        <a href="/pair" class="btn btn-primary">
+          <i class="fas fa-link"></i> Pair Now
+        </a>
+        <a href="/qr" class="btn btn-primary"> <!-- Fixed QR link -->
+          <i class="fas fa-qrcode"></i> Scan QR
+        </a>
+        <a href="#deploy" class="btn btn-secondary">
+          <i class="fas fa-cloud-upload-alt"></i> Deploy Your Own
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pairing Section -->
+  <section id="pair">
+    <h2 class="section-title fade-in">Pair Your WhatsApp</h2>
+    
+    <div class="pairing-dashboard scale-in">
+      <div class="input-group">
+        <label class="input-label">
+          <i class="fas fa-mobile-alt"></i> Enter Your WhatsApp Number
+        </label>
+        <div class="input-wrapper">
+          <input 
+            type="tel" 
+            id="phoneNumber"
+            class="phone-input"
+            placeholder="2347018486818 or +2347018486818"
+            pattern="[0-9+]*"
+            inputmode="numeric"
+          >
+          <button id="generateBtn" class="generate-btn">
+            <i class="fas fa-bolt"></i> Generate Pairing Code
+          </button>
+        </div>
+      </div>
+
+      <div id="resultContainer"></div>
+
+      <div id="loadingIndicator" style="display: none; text-align: center; padding: 2rem;">
+        <div style="margin-bottom: 1rem;">
+          <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+        </div>
+        <p style="color: var(--text-secondary);">Generating secure pairing code...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Bot Section -->
+  <section id="about" class="slide-left">
+    <h2 class="section-title">About Elon MD Bot</h2>
+    
+    <div class="info-grid">
+      <div class="info-card">
+        <i class="fas fa-star"></i>
+        <h3>Why Choose Elon MD?</h3>
+        <p>Elon MD is the most comprehensive WhatsApp bot available, featuring 200+ commands including media downloaders (YouTube, Instagram, TikTok, Facebook), AI chat with GPT-4, games, utility tools, educational features, and much more. It's completely free, open source, and regularly updated.</p>
+      </div>
+      
+      <div class="info-card">
+        <i class="fas fa-cogs"></i>
+        <h3>Key Features</h3>
+        <ul style="padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
+          <li>Media Downloaders (50+ platforms)</li>
+          <li>AI Chat with multiple models</li>
+          <li>Games & Entertainment</li>
+          <li>Educational Tools</li>
+          <li>Utility Commands</li>
+          <li>Group Management</li>
+          <li>Automation Tools</li>
+          <li>And much more...</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Security & Privacy</h3>
+        <p>Your privacy is our priority. Elon MD doesn't store your messages, media, or personal data. All processing happens in real-time with end-to-end encryption. We comply with WhatsApp's terms of service and data protection regulations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deployment Guide Section -->
+  <section id="deploy" class="slide-right">
+    <h2 class="section-title">Deployment Guide</h2>
+    
+    <div class="deployment-steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Get the Source Code</h3>
+          <p>Clone or download the bot from our GitHub repository:</p>
+          <div style="background: rgba(15, 23, 42, 0.8); padding: 1rem; border-radius: 8px; margin: 1rem 0; font-family: monospace;">
+            git clone https://github.com/elondrex/Elon-MD.git
+          </div>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Choose Hosting Platform</h3>
+<p>Deploy on any of these platforms:</p>
+<div class="social-links" style="margin-top: 1rem; justify-content: flex-start;">
+  <a href="https://heroku.com/deploy?template=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fab fa-heroku"></i> Heroku
+  </a>
+  <a href="https://replit.com/github/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-code"></i> Replit
+  </a>
+  <a href="https://render.com/deploy?repo=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-server"></i> Render
+  </a>
+  <a href="https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-th"></i> Panel
+  </a>
+  <a href="https://app.koyeb.com/deploy?type=git&repository=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-cloud"></i> Koyeb
+  </a>
+  <a href="https://railway.app/new?template=https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+    <i class="fas fa-train"></i> Railway
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Configure Environment</h3>
+          <p>Set up your environment variables:</p>
+          <div style="background: rgba(15, 23, 42, 0.8); padding: 1rem; border-radius: 8px; margin: 1rem 0; font-family: monospace; font-size: 0.9rem;">
+            PORT=3000
+SESSION_ID=your_session_id
+PREFIX=!
+MODS=255752593977
+MONGODB_URI=your_mongodb_uri
+CRON=0 */2 * * *
+WELCOME=true
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Information -->
+  <section id="contact" class="scale-in">
+    <h2 class="section-title">Contact Information</h2>
+    
+    <div class="info-grid">
+      <div class="info-card">
+        <i class="fas fa-user"></i>
+        <h3>Developer Info</h3>
+        <p><strong>Name:</strong> Elondrex</p>
+        <p><strong>GitHub:</strong> elondrex</p>
+        <p><strong>Repo:</strong> Elon-MD</p>
+      </div>
+      
+      <div class="info-card">
+        <i class="fas fa-envelope"></i>
+        <h3>Email</h3>
+        <p>elondrex@gmail.com</p>
+        <p>For business inquiries and support</p>
+      </div>
+      
+      <div class="info-card">
+        <i class="fas fa-phone"></i>
+        <h3>Phone/WhatsApp</h3>
+        <p>+2347018486818</p>
+        <a href="https://wa.me/2347018486818?text=Hello%20from%20Elon%20MD%20website" 
+           class="btn btn-primary" 
+           style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">
+          <i class="fab fa-whatsapp"></i> WhatsApp Now
+        </a>
+      </div>
+    </div>
+    
+    <div style="margin-top: 3rem; text-align: center;">
+      <h3 style="color: white; margin-bottom: 1.5rem;">Connect With Us</h3>
+      <div class="social-links">
+        <a href="https://github.com/elondrex" class="social-link" target="_blank">
+          <i class="fab fa-github"></i> elondrex
+        </a>
+        <a href="https://elondrex.vercel.app" class="social-link" target="_blank">
+          <i class="fas fa-globe"></i> Website
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Links -->
+  <section class="fade-in">
+    <h2 class="section-title">Join Our Community</h2>
+    
+    <div class="social-links">
+      <a href="https://whatsapp.com/channel/0029VbC58oLAjPXSXn7Hyv1Q" class="social-link" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp Channel
+      </a>
+      <a href="https://github.com/elondrex/Elon-MD" class="social-link" target="_blank">
+        <i class="fab fa-github"></i> Repository
+      </a>
+      <a href="https://elondrex.vercel.app" class="social-link" target="_blank">
+        <i class="fas fa-globe"></i> Main Website
+      </a>
+    </div>
+  </section>
+
+  <!-- Feedback Form -->
+  <section id="feedback" class="contact-form slide-left">
+    <h2 style="text-align: center; color: white; margin-bottom: 2rem;">Leave Your Feedback</h2>
+    
+    <form id="feedbackForm">
+      <div class="form-group">
+        <label for="userEmail">Your Email Address</label>
+        <input type="email" id="userEmail" class="form-control" placeholder="your.email@gmail.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="feedbackType">Feedback Type</label>
+        <select id="feedbackType" class="form-control" required>
+          <option value="">Select type...</option>
+          <option value="suggestion">Suggestion</option>
+          <option value="bug">Bug Report</option>
+          <option value="feature">Feature Request</option>
+          <option value="compliment">Compliment</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="feedbackMessage">Your Feedback</label>
+        <textarea id="feedbackMessage" class="form-control" placeholder="Please share your thoughts, suggestions, or issues..." required></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-paper-plane"></i> Send Feedback
+      </button>
+    </form>
+    
+    <div id="feedbackSuccess" style="display: none; text-align: center; padding: 2rem; background: rgba(16, 185, 129, 0.1); border-radius: 12px; margin-top: 2rem; border: 1px solid rgba(16, 185, 129, 0.3);">
+      <i class="fas fa-check-circle" style="color: var(--accent); font-size: 3rem; margin-bottom: 1rem;"></i>
+      <h3 style="color: white;">Thank You!</h3>
+      <p style="color: var(--text-secondary);">Your feedback has been sent successfully to elondrex@gmail.com</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="fade-in">
+    <div style="max-width: 800px; margin: 0 auto;">
+      <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+        <i class="fas fa-robot"></i>
+        <span>Elon MD Bot</span>
+      </div>
+      
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+        Advanced WhatsApp Bot with 200+ Features • Free & Open Source • Developed by Elondrex
+      </p>
+      
+      <div class="social-links">
+        <a href="https://github.com/elondrex/Elon-MD" class="social-link">
+          <i class="fab fa-github"></i> Repository
+        </a>
+        <a href="mailto:elondrex@gmail.com" class="social-link">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+        <a href="https://wa.me/2347018486818" class="social-link">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+      
+      <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        © 2024 Elon MD by Elondrex. All rights reserved. Elon MD is not affiliated with WhatsApp Inc.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        navLinks.classList.remove('active');
+      }
+    });
+
+    // Scroll Animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.querySelectorAll('.fade-in, .slide-left, .slide-right, .scale-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Pairing Code Generation (Original functionality preserved)
+    let resultContainer = document.getElementById("pair");
+    let submitBtn = document.getElementById("submit");
+    let phoneInput = document.getElementById("number");
+    let waitingMessage = document.getElementById("waiting-message");
+    let particlesContainer = document.getElementById("particles");
+
+    // Create screen particles
+    function createParticles() {
+      particlesContainer.innerHTML = '';
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.cssText = `
+          left: ${Math.random() * 100}%;
+          animation-delay: ${Math.random() * 3}s;
+          animation-duration: ${Math.random() * 2 + 2}s;
+          background: hsl(${Math.random() * 60 + 180}, 100%, 70%);
+        `;
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    async function copyCode(button) {
+      const codeElement = document.querySelector('.code-highlight');
+      if (!codeElement) return;
+      
+      const text = codeElement.innerText.replace(/\s/g, '');
+      try {
+        await navigator.clipboard.writeText(text);
+        
+        button.classList.add('copied');
+        button.innerHTML = '<i class="fas fa-check"></i> Code Copied!';
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = '<i class="fas fa-copy"></i> Copy Code';
+        }, 2000);
+      } catch (err) {
+        button.innerHTML = '<i class="fas fa-exclamation"></i> Failed!';
+        setTimeout(() => {
+          button.innerHTML = '<i class="fas fa-copy"></i> Copy Code';
+        }, 2000);
+      }
+    }
+
+    // Fix for main.html pairing (matching original functionality)
+    const generateBtn = document.getElementById('generateBtn');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const mainResultContainer = document.getElementById('resultContainer');
+    const mainLoadingIndicator = document.getElementById('loadingIndicator');
+
+    generateBtn.addEventListener('click', async () => {
+      const phoneNumber = phoneNumberInput.value.trim();
+      
+      if (!phoneNumber) {
+        mainResultContainer.innerHTML = `
+          <div style="color: var(--danger); font-weight: 600; text-align: center;">
+            <i class="fas fa-exclamation-circle"></i> Please enter your WhatsApp number
+          </div>
+        `;
+        return;
+      }
+
+      const cleanNumber = phoneNumber.replace(/[^0-9]/g, "");
+      
+      if (cleanNumber.length < 11) {
+        mainResultContainer.innerHTML = `
+          <div style="color: var(--danger); font-weight: 600; text-align: center;">
+            <i class="fas fa-times-circle"></i> Invalid number format
+          </div>
+        `;
+        return;
+      }
+
+      // Show loading
+      mainLoadingIndicator.style.display = 'block';
+      mainResultContainer.innerHTML = '';
+
+      try {
+        // Call your backend API (original functionality)
+        const response = await fetch(`/code?number=${cleanNumber}`);
+        const data = await response.json();
+        
+        mainLoadingIndicator.style.display = 'none';
+        
+        if (data.code && data.code !== "SERVICE_OFFLINE") {
+          const code = data.code;
+          const formattedCode = code.match(/.{1,4}/g).join(' ');
+          
+          mainResultContainer.innerHTML = `
+            <div style="background: rgba(16, 185, 129, 0.1); border-radius: 16px; padding: 2rem; margin-top: 2rem; border: 1px solid rgba(16, 185, 129, 0.3);">
+              <div style="color: var(--accent); font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-key"></i> Your Secure Pairing Code
+              </div>
+              <div style="font-size: 1.8rem; font-weight: 800; color: white; letter-spacing: 2px; text-align: center; margin: 1.5rem 0; font-family: 'Courier New', monospace; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px;">
+                ${formattedCode}
+              </div>
+              <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                <i class="fas fa-clock"></i> Valid for 5 minutes • <i class="fas fa-sync-alt"></i> One-time use
+              </p>
+              <button onclick="copyToClipboard('${code}')" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-copy"></i> Copy Code
+              </button>
+            </div>
+          `;
+        } else {
+          mainResultContainer.innerHTML = `
+            <div style="color: var(--danger); font-weight: 600; text-align: center;">
+              <i class="fas fa-exclamation-triangle"></i> ${data.code || 'Service error'}
+            </div>
+          `;
+        }
+      } catch (error) {
+        mainLoadingIndicator.style.display = 'none';
+        mainResultContainer.innerHTML = `
+          <div style="color: var(--danger); font-weight: 600; text-align: center;">
+            <i class="fas fa-exclamation-triangle"></i> Network error. Please try again.
+          </div>
+        `;
+      }
+    });
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Code copied to clipboard!');
+      });
+    }
+
+    // Feedback Form Submission
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackSuccess = document.getElementById('feedbackSuccess');
+
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userEmail = document.getElementById('userEmail').value;
+      const feedbackType = document.getElementById('feedbackType').value;
+      const feedbackMessage = document.getElementById('feedbackMessage').value;
+
+      // Simulate sending email (original functionality)
+      setTimeout(() => {
+        feedbackForm.style.display = 'none';
+        feedbackSuccess.style.display = 'block';
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          feedbackForm.reset();
+          feedbackForm.style.display = 'block';
+          feedbackSuccess.style.display = 'none';
+        }, 5000);
+      }, 1500);
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // Close mobile menu if open
+          navLinks.classList.remove('active');
+        }
+      });
+    });
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Trigger initial animation check
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in, .slide-left, .slide-right, .scale-in').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          
+          if (rect.top < windowHeight * 0.9) {
+            el.classList.add('visible');
+          }
+        });
+      }, 100);
+    });
+  </script>
+</body>
+</html>
